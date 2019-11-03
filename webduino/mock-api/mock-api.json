@@ -1,0 +1,15 @@
+{
+  "status": {
+    "data": 
+    [
+      {
+        "outlet": "1",
+        "state": "1"
+      },
+      {
+        "outlet": "2",
+        "state": "1"
+      }
+    ]
+  }
+}
