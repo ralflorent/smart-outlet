@@ -7,6 +7,11 @@ The app or web-ui is created with [Angular CLI](https://cli.angular.io/). Below 
 ```
 ng new smart-outlet --routing --style scss --skip-git --prefix so --directory web-ui
 ```
+## Components
+The main components are `home`, `outlets`, and `history`. The command to create them is:
+```
+ng generate component home|outlets|history
+```
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.5.
 
