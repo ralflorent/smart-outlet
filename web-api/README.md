@@ -45,7 +45,7 @@ For the use case *Set an outlet status*, the specs are the following:
 
 *REQUEST*:
 * method: `POST`
-* endpoint: `/api/outlet/status`
+* endpoint: `/api/outlet/update`
 * body:
 ```
 {
