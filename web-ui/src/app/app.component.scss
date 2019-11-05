@@ -1,0 +1,31 @@
+@media screen and (max-width: 960px) {
+    .container {
+      padding-right: 0 !important;
+      padding-left: 0 !important;
+    }
+}
+
+/* Footer area */
+@media (max-width: 991px) {
+  footer {
+    position: static;
+    padding: 0.625em;
+    margin: 0;
+  }
+}
+
+.footer {
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+  border-top: 3px solid #007bff;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  margin-top: 0.5em;
+  background: #343A40;
+
+  &.content {
+    padding: 0.625em;
+  }
+}
