@@ -11,6 +11,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "paths": {
+        "@shared/*": ["src/app/shared/*"],
+        "@env/*": ["src/environments/*"]
+    },
     "target": "es2015",
     "typeRoots": [
       "node_modules/@types"

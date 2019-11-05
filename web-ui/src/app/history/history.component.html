@@ -1,3 +1,63 @@
-<p>
-  history works!
-</p>
+<div class="card-body text-left">
+    <h5 class="card-title text-center">
+        History
+        <p class="small text-muted"> View a summary of the last updates </p>
+    </h5>
+    <hr class="gns-hr-separator gns-color-primary"/>
+    <div class="container">
+        <br>
+        <div fxLayout="row">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+            <div class="float-right">
+                <a class="btn btn-primary" style="margin-top: 5px" (click)="onReload()">
+                    Reload
+                </a>
+            </div>
+        </div>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="name">
+                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
+                        Name </th>
+                    <td mat-cell data-label="name" *matCellDef="let o"> {{ o.outlet }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
+                        Status </th>
+                    <td class="text-success" data-label="status" mat-cell *matCellDef="let o">
+                        {{ o.state }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="updatedOn">
+                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
+                        Last Updated </th>
+                    <td mat-cell data-label="last updated" *matCellDef="let o">
+                        {{ o.updatedOn | date: 'medium' }} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <br>
+        <div *ngIf="loading" class="d-flex align-items-center">
+            <strong>Loading...</strong>
+            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+        </div>
+        <div *ngIf="!outlets && !loading" class="alert alert-info" role="alert">
+            No data available to display!
+        </div>
+
+        <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMsg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>

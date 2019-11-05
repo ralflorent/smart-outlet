@@ -28,6 +28,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~8.2.13",
+    "@angular/cdk": "^8.2.3",
     "@angular/common": "~8.2.13",
     "@angular/compiler": "~8.2.13",
     "@angular/core": "~8.2.13",
@@ -36,8 +37,10 @@
     "@angular/platform-browser": "~8.2.13",
     "@angular/platform-browser-dynamic": "~8.2.13",
     "@angular/router": "~8.2.13",
+    "@ng-bootstrap/ng-bootstrap": "^5.1.2",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
+    "hammerjs": "^2.0.8",
     "ng-bootstrap": "^1.6.3",
     "ngx-toastr": "^11.2.0",
     "rxjs": "~6.5.3",
