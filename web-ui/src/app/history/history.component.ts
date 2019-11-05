@@ -51,32 +51,6 @@ export class HistoryComponent implements OnInit {
 			);
 	}
 
-	search(term: string): void {
-        if (!term) {
-            this.errorMsg = `Please enter a valid search term to proceed`;
-            this.ngOnInit();
-            return;
-        }
-
-        this.errorMsg = '';
-        this.loading = true;
-        this.dataService.search(term)
-            .subscribe(
-                (data: Outlet[]) => {
-                    this.outlets = data;
-                    this.dataSource = new MatTableDataSource<Outlet>(data);
-                    this.dataSource.paginator = this.paginator;
-                    if (this.outlets && this.outlets.length) return;
-                    this.errorMsg = `No results found for '${term}'`;
-                },
-                (error: string) => {
-                    this.loading = false;
-                    this.errorMsg = error;
-                },
-                () => this.loading = false
-            );
-    }
-
     applyFilter(term: string): void {
         term = term.trim().toLowerCase(); // clean search term
         this.dataSource.filter = term;

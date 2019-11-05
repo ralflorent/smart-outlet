@@ -1,18 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
 // GLOBAL styles for the GNS UI
-@import '~font-awesome/css/font-awesome.min.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 @import '~ngx-toastr/toastr.css';
 
-.app-text-w {
+.gns-text-w {
     color: #fff;
 }
 
-.app-text-k {
+.gns-text-k {
     color: #eee;
 }
 $margin-size: 5px;
-.app-btn-margin {
+.gns-btn-margin {
     margin: $margin-size;
     &-top {
         margin: $margin-size 0 0 0;
@@ -28,7 +27,7 @@ $margin-size: 5px;
     }
 }
 
-.app-hr-separator {
+.gns-hr-separator {
     height: 1px;
     border: none;
     background-color: #000;
@@ -36,11 +35,11 @@ $margin-size: 5px;
     text-align: center;
     margin: 1.5rem auto;
 
-    &.app-color-primary {
+    &.gns-color-primary {
         color: #eee;
     }
 
-    &.app-color-secondary {
+    &.gns-color-secondary {
         color: #000;
     }
 }

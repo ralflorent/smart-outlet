@@ -8,12 +8,12 @@
         <br>
         <div fxLayout="row">
             <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by Status">
             </mat-form-field>
             <div class="float-right">
-                <a class="btn btn-primary" style="margin-top: 5px" (click)="onReload()">
+                <button class="btn btn-primary" style="margin-top: 5px" (click)="onReload()">
                     Reload
-                </a>
+                </button>
             </div>
         </div>
         <div class="mat-elevation-z8">
@@ -21,14 +21,14 @@
                 <ng-container matColumnDef="name">
                     <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
                         Name </th>
-                    <td mat-cell data-label="name" *matCellDef="let o"> {{ o.outlet }} </td>
+                    <td mat-cell data-label="name" *matCellDef="let o"> {{ o.name }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="status">
                     <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
                         Status </th>
                     <td class="text-success" data-label="status" mat-cell *matCellDef="let o">
-                        {{ o.state }} </td>
+                        {{ o.status }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="updatedOn">

@@ -10,7 +10,8 @@ import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
 
 import { APP } from '@shared/constants';
-import { Outlet } from '@shared/models';
+import { OutletDto, Outlet } from '@shared/models';
+import { map as mapDto } from '@shared/utils';
 
 @Injectable({
 	providedIn: 'root'
@@ -24,14 +25,22 @@ export class DataService {
 	getOutlets(): Observable<Outlet[] | string> {
 		// return this.http
         // 	.get<any>(`${this.baseUrl}/outlet`);
-        return of(OUTLETS).pipe( catchError(this.handleError) );
+        return of(OUTLETS).pipe(
+            map( (data: OutletDto[]) => data.map(e => mapDto(e))),
+            catchError(this.handleError)
+        );
 	}
 
-	search(term: string): Observable<any> {
+	search(term: string): Observable<Outlet[] | string> {
 		// return this.http
         // 	.get<any>(`${this.baseUrl}/outlet`);
-        const found: Outlet[] = OUTLETS.filter(o => o.outlet.includes(term));
-        return of(found).pipe( catchError(this.handleError) );
+        return of(OUTLETS).pipe(
+            map( (data: OutletDto[]) => {
+                const mapped: Outlet[] = data.map(e => mapDto(e))
+                return mapped.filter(f => f.status === term);
+            }),
+            catchError(this.handleError)
+        );
 	}
 
 	private handleError(err: HttpErrorResponse) {
@@ -57,7 +66,7 @@ export class DataService {
 }
 
 
-const OUTLETS: Array<Outlet> = [
+const OUTLETS: Array<OutletDto> = [
     { id: 1, outlet: "1", state: "0", updatedOn: "Tue, 05 Nov 2014 13:44:35 GMT" },
     { id: 1, outlet: "1", state: "1", updatedOn: "Tue, 05 Nov 2015 13:44:35 GMT" },
     { id: 2, outlet: "2", state: "1", updatedOn: "Tue, 05 Nov 2016 13:44:35 GMT" },
