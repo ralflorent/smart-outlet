@@ -22,17 +22,16 @@ For the use case *Retrieve the current outlet statuses*, the specs are the follo
 *RESPONSE*:
 ```
 {
-  "data":
-  [
+  "data": [
     {
-      "outlet": "1",
-      "state": "1",
-      "updatedOn": "2019-10-04T06:00:00Z"
-    },
+      "outlet": 1, 
+      "state": 1, 
+      "updatedOn": "Tue, 05 Nov 2019 14:20:56 GMT"
+    }, 
     {
-      "outlet": "2",
-      "state": "0",
-      "updatedOn": "2019-10-04T06:00:00Z"
+      "outlet": 2, 
+      "state": 0, 
+      "updatedOn": "Tue, 05 Nov 2019 14:57:10 GMT"
     }
   ]
 }
@@ -50,19 +49,18 @@ For the use case *Set an outlet status*, the specs are the following:
 * body:
 ```
 {
-    "id": 1,
-    "outlet": "2",
-    "state": "0",
+  "outlet": 2,
+  "state": 1,
 }
 ```
 
 *RESPONSE*:
 ```
 {
-    "id": 1,
-    "outlet": "2",
-    "state": "0",
-    "updatedOn": "2019-10-04T06:00:00Z"
+  "id": 29,
+  "outlet": 2,
+  "state": 1,
+  "updatedOn": "Tue, 05 Nov 2019 16:08:52 GMT"
 }
 ```
 
@@ -80,23 +78,25 @@ For the use case *Retrieve the history of the outlet statuses*, the specs are th
 *RESPONSE*:
 ```
 {
-  "data":
-  [
+  "data": [
     {
-      "outlet": "1",
-      "state": "1",
-      "updatedOn": "2019-10-04T06:00:00Z"
-    },
+      "id": 1, 
+      "outlet": 2, 
+      "state": 1, 
+      "updatedOn": "Tue, 05 Nov 2019 13:40:32 GMT"
+    }, 
     {
-      "outlet": "2",
-      "state": "0",
-      "updatedOn": "2019-10-04T06:00:00Z"
-    },
+      "id": 2, 
+      "outlet": 2, 
+      "state": 0, 
+      "updatedOn": "Tue, 05 Nov 2019 13:44:05 GMT"
+    }, 
     {
-      "outlet": "2",
-      "state": "1",
-      "updatedOn": "2019-10-04T06:04:00Z"
-    },
+      "id": 3, 
+      "outlet": 1, 
+      "state": 1, 
+      "updatedOn": "Tue, 05 Nov 2019 13:44:35 GMT"
+    }, 
     ...
   ]
 }
@@ -107,5 +107,5 @@ For the use case *Retrieve the history of the outlet statuses*, the specs are th
 Not implemented yet
 
 ## Notes
-* The date format used is: `2019-10-04T06:00:00Z`
+* The date format used is: `Tue, 05 Nov 2019 13:44:35 GMT`
 * This API contains no security layers. That is, no authentication module has been implemented.
