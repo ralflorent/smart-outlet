@@ -1,4 +1,4 @@
-const apiServiceUrl: string = `192.168.0.30:8080/api`;
+const apiServiceUrl: string = `http://192.168.0.30:8080/api`;
 
 export const environment = {
     production: false,

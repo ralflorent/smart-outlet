@@ -2,19 +2,16 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-// history:  http://www.mocky.io/v2/5dc2a1b12f000065004be23d
-// status: http://www.mocky.io/v2/5dc2a23e2f00005b004be245
-// update:  http://www.mocky.io/v2/5dc2a26a2f000050004be24a
-const apiServiceUrl: string = `http://www.mocky.io/v2`;
+const apiServiceUrl: string = `http://192.168.0.104:5000/api`;
 
 export const environment = {
     production: false,
     api: {
         BASE_URL: apiServiceUrl,
         endpoints: {
-            HISTORY: `${apiServiceUrl}/5dc2a1b12f000065004be23d`,
-            STATUS: `${apiServiceUrl}/5dc2a23e2f00005b004be245`,
-            UPDATE: `${apiServiceUrl}/5dc2a26a2f000050004be24a`,
+            HISTORY: `${apiServiceUrl}/outlet/history`,
+            STATUS: `${apiServiceUrl}/outlet/status`,
+            UPDATE: `${apiServiceUrl}/outlet/update`,
         }
     }
 };

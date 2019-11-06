@@ -3,18 +3,18 @@
 #include <string.h>
 #include <Outlet.h>
 
-#define DEBUG       false
+#define DEBUG       true
 #define LED         13
-#define CH_PD       8
+#define CH_PD       50
 #define BAUDRATE    115200
 
 #define WIFI_IP     "192.168.0.10"
-#define SERVER_API  "192.168.0.105"  // "http://www.mocky.io/v2/5db98c6b3000005a005ee41e" // "192.168.0.20"
-#define SERVER_PORT "3000" // 80
-#define ENDPOINT    "/status" //"/api/outlet/status"
+#define SERVER_API  "192.168.0.104"
+#define SERVER_PORT "5000"
+#define ENDPOINT    "/api/outlet/statusino"
 #define N_RELAYS    2
 
-#define WIFISerial Serial // software serial has a buffer overflow issue
+#define WIFISerial Serial3 // software serial has a buffer overflow issue
 
 char* PAYLOAD;
 struct STATUS {
@@ -22,8 +22,8 @@ struct STATUS {
   bool state;
 };
 
-Outlet relay1(2, false);
-Outlet relay2(3, false);
+Outlet relay1(52, false);
+Outlet relay2(53, false);
 STATUS relayStates[N_RELAYS];
 
 void setup () {
@@ -75,7 +75,7 @@ bool connect(int connectionId, String server) {
   WIFISerial.println(cipStart);
   if (DEBUG) Serial.println(cipStart);
 
-  delay(1000);
+  delay(500);
 
   if (WIFISerial.available())
     if (WIFISerial.find("OK"))
@@ -91,7 +91,7 @@ bool disconnect(int connectionId) {
   String closeCmd = "AT+CIPCLOSE=" + String(connectionId);
   WIFISerial.println(closeCmd);
   if (DEBUG) Serial.println(closeCmd);
-  delay(1000);
+  delay(500);
 
   if (WIFISerial.available() > 0) {
     if (WIFISerial.find("CLOSED")) {
@@ -132,7 +132,7 @@ bool sendRequest(String method, String resource, String queryParams, int connect
   String cipSend = "AT+CIPSEND=" + String(connectionId) + "," + cipCmd.length();
   WIFISerial.println(cipSend);
   if (DEBUG) Serial.println(cipSend);
-  delay(1000); // wait until request is sent
+  delay(500); // wait until request is sent
 
   // Now try to send the HTTP request
   if (WIFISerial.available()) {
@@ -140,7 +140,7 @@ bool sendRequest(String method, String resource, String queryParams, int connect
       if (isPost) {
         sendWifiCommand(cipCmd, 1000, DEBUG);
       } else {
-        sendHTTPCmd(cipCmd, 3000, DEBUG); // wraps the sendWifiCommand with extra steps
+        sendHTTPCmd(cipCmd, 1500, DEBUG); // wraps the sendWifiCommand with extra steps
       }
       if (DEBUG) Serial.println(cipCmd);
       return true;
@@ -182,7 +182,6 @@ String sendWifiCommand(String command, const int timeout, boolean debug) {
 
   while ((time + timeout) > millis()) {
     while (WIFISerial.available()) {
-      if (WIFISerial.find("outlet\":")) digitalWrite(LED, HIGH);
       // The esp has data so display its output to the serial window
       char c = WIFISerial.read(); // read the next character.
       response += c;
@@ -196,13 +195,10 @@ String sendWifiCommand(String command, const int timeout, boolean debug) {
 
 void sendHTTPCmd(String command, const int timeout, boolean debug) {
 
-  if (DEBUG) Serial.println("Trying to get the payload");
   String response = sendWifiCommand(command, timeout, debug);
 
   String payload = getDataPayload(response);
   payload.trim();
-
-  if (DEBUG) Serial.println("PAYLOAD: " + payload);
 
   if (payload != NULL) {
     int payloadLength = payload.length() + 1;
@@ -210,43 +206,47 @@ void sendHTTPCmd(String command, const int timeout, boolean debug) {
 
     payload.toCharArray(PAYLOAD, payloadLength);
   }
+
+  clearBuffer();
 }
 
 /*********************************************************************************/
 /* Status format
   {
-  "data":
-  [
-    {
-      "outlet": "1",
-      "state": "1"
-    },
-    {
-      "outlet": "2",
-      "state": "0"
-    }
-  ]
-  }*/
+    "data": [
+      {
+        "outlet": 1,
+        "state": 1
+      },
+      {
+        "outlet": 2,
+        "state": 0
+      }
+    ]
+  }
+*/
 bool parseRelayStates() {
+  // Buffer size
   const size_t BUFFER_SIZE =
     JSON_OBJECT_SIZE(1)  // the root object has 1 element
-    + JSON_OBJECT_SIZE(2)  // the "data" array has 2 array elements
-    + JSON_OBJECT_SIZE(2)  // the array 1 has 2 elements
-    + JSON_OBJECT_SIZE(2); // the array 2 has 2 elements
+    + JSON_ARRAY_SIZE(2)  // the "data" array has 2 array elements
+    + 2 * JSON_OBJECT_SIZE(2); // the array 1 has 2 elements
 
-  StaticJsonBuffer<BUFFER_SIZE> jsonBuffer;
-
-  JsonObject& root = jsonBuffer.parseObject(PAYLOAD);
-
-  if (!root.success()) {
-    return false;
+  StaticJsonDocument<BUFFER_SIZE> root;
+  // Parse the JSON input
+  DeserializationError err = deserializeJson(root, PAYLOAD);
+  // Parse succeeded?
+  if (err) {
+    if (DEBUG) Serial.print(F("deserializeJson() returned "));
+    if (DEBUG) Serial.println(err.c_str());
+    return;
   }
 
   for (int i = 0; i < N_RELAYS; i++) {
     String value = (root["data"][i]["outlet"]);
     relayStates[i].outlet = value.toInt();
     String str = (root["data"][i]["state"]);
-    relayStates[i].state = (str == "1") ? true : false;
+    relayStates[i].state = (str.toInt() == 1) ? true : false;
   }
 
   return true;
@@ -256,7 +256,7 @@ String getDataPayload(String httpRep) {
   int startIndex = httpRep.indexOf('{');
   int endIndex = httpRep.lastIndexOf('}');
   String str = "";
-  str += httpRep.substring(startIndex, endIndex + 1);
+  str += httpRep.substring(startIndex, httpRep.length());
   return str;
 }
 
@@ -264,6 +264,8 @@ bool updateRelays() {
   if (DEBUG) Serial.println("Updating relays...");
   for (int i = 0; i < N_RELAYS; i++)
     updateRelay((char)relayStates[i].outlet, relayStates[i].state);
+
+  if (DEBUG) printStatus();
 }
 
 void updateRelay(char outlet, bool state) {

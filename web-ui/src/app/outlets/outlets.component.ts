@@ -1,25 +1,30 @@
 /**
- * `Home` page for the report-engine app
+ * `Outlets` page for the app
  *
  * Created on October 30, 2019
  * @author Ralph Florent <r.florent@jacobs-university.de>
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { DataService } from '@shared/services';
 import { Outlet } from '@shared/models';
+
+const COUNTDOWN_VALUE: number = 30;
 
 @Component({
     selector: 'so-outlets',
     templateUrl: './outlets.component.html',
     styleUrls: ['./outlets.component.scss']
 })
-export class OutletsComponent implements OnInit {
+export class OutletsComponent implements OnInit, OnDestroy {
 
     outlets: Array<Outlet> = [];
     errorMsg: string = '';
     loading: boolean = false;
+
+    private downloadTimer: any;
+    private counter: number;
 
     constructor(
         private toastr: ToastrService,
@@ -27,22 +32,11 @@ export class OutletsComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.loading = true;
-        this.dataService.getStatus()
-            .subscribe(
-                (data: Outlet[]) => {
-                    this.outlets = data;
-                },
-                (error: string) => {
-                    this.loading = false;
-                    this.errorMsg = error;
-                    this.toastr.error('Oops! Something went wrong')
-                },
-                () => {
-                    this.loading = false;
-                    this.toastr.info('Data loaded successfully')
-                }
-            );
+        this.loadData();
+    }
+
+    ngOnDestroy(): void {
+        this.stopTimer();
     }
 
     toggleStatus(outlet: Outlet): void {
@@ -57,6 +51,27 @@ export class OutletsComponent implements OnInit {
         }
     }
 
+    loadData(): void {
+        this.loading = true;
+        this.dataService.getStatus()
+            .subscribe(
+                (data: Outlet[]) => {
+                    this.outlets = data;
+                },
+                (error: string) => {
+                    this.loading = false;
+                    this.errorMsg = error;
+                    this.toastr.error('Oops! Something went wrong');
+                    this.startTimer();
+                },
+                () => {
+                    this.loading = false;
+                    this.toastr.info('Data loaded successfully');
+                    this.startTimer();
+                }
+            );
+    }
+
     onUpdate(outlet: Outlet): void {
         this.loading = true;
         this.toggleStatus(outlet);
@@ -68,11 +83,10 @@ export class OutletsComponent implements OnInit {
         this.dataService.updateStatus(payload)
             .subscribe(
                 (data: Outlet) => {
-                    this.outlets.forEach(o => {
-                        if (data.id == o.id) {
-                            o = data; // *ngFor will update view
-                        }
-                    });
+                    const index = this.outlets.findIndex(o => data.name == o.name);
+                    if (0 <=index) {
+                        this.outlets[index] = data;
+                    }
                 },
                 (error: string) => {
                     this.loading = false;
@@ -84,5 +98,21 @@ export class OutletsComponent implements OnInit {
                     this.toastr.success('Data updated successfully')
                 }
             );
+    }
+
+    private startTimer(): void {
+        this.counter = COUNTDOWN_VALUE;
+
+        this.downloadTimer = setInterval(() => {
+            this.counter -= 1;
+            if (this.counter <= 0) {
+                this.stopTimer();
+                this.loadData();
+            }
+        }, 1000);
+    }
+
+    private stopTimer(): void {
+        clearInterval(this.downloadTimer);
     }
 }
