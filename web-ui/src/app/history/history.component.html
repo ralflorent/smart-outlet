@@ -20,15 +20,17 @@
             <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="name">
                     <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
-                        Name </th>
+                        Outlet </th>
                     <td mat-cell data-label="name" *matCellDef="let o"> {{ o.name }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="status">
                     <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
                         Status </th>
-                    <td class="text-success" data-label="status" mat-cell *matCellDef="let o">
-                        {{ o.status }} </td>
+                    <td [ngClass]="{'text-success': o.status == 'ON', 'text-danger': o.status == 'OFF'}"
+                        data-label="status" mat-cell *matCellDef="let o">
+                        {{ o.status }}
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="updatedOn">

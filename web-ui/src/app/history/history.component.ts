@@ -35,7 +35,7 @@ export class HistoryComponent implements OnInit {
 	ngOnInit() {
 		this.loading = true;
 		this.columnNames = ['name', 'status', 'updatedOn'];
-		this.dataService.getOutlets()
+		this.dataService.getHistory()
 			.subscribe(
 				(data: Outlet[]) => {
 					this.outlets = data;
@@ -45,9 +45,13 @@ export class HistoryComponent implements OnInit {
 				},
 				(error: string) => {
 					this.loading = false;
-					this.errorMsg = error;
+                    this.errorMsg = error;
+                    this.toastr.error('Data have been loaded successfully', 'Success')
 				},
-				() => this.loading = false
+				() => {
+                    this.loading = false;
+                    this.toastr.info('Data have been loaded successfully', 'Info')
+                }
 			);
 	}
 
@@ -57,6 +61,7 @@ export class HistoryComponent implements OnInit {
     }
 
 	onReload(): void {
-		// reload tables
+        // reload tables
+        this.ngOnInit();
 	}
 }

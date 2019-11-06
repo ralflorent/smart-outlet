@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { Observable, throwError, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { APP } from '@shared/constants';
 import { OutletDto, Outlet } from '@shared/models';
@@ -18,30 +18,34 @@ import { map as mapDto } from '@shared/utils';
 })
 export class DataService {
 
-	private baseUrl = APP.api.BASE_URL;
-
 	constructor(private http: HttpClient) { }
 
-	getOutlets(): Observable<Outlet[] | string> {
-		// return this.http
-        // 	.get<any>(`${this.baseUrl}/outlet`);
-        return of(OUTLETS).pipe(
-            map( (data: OutletDto[]) => data.map(e => mapDto(e))),
-            catchError(this.handleError)
-        );
-	}
+    setStatus(payload: {outlet: string, state: string}): Observable<Outlet | string> {
+		return this.http
+        	.post(`${APP.api.endpoints.UPDATE}`, payload)
+            .pipe(
+                map( (response: OutletDto) => mapDto(response)),
+                catchError(this.handleError)
+            );
+    }
 
-	search(term: string): Observable<Outlet[] | string> {
-		// return this.http
-        // 	.get<any>(`${this.baseUrl}/outlet`);
-        return of(OUTLETS).pipe(
-            map( (data: OutletDto[]) => {
-                const mapped: Outlet[] = data.map(e => mapDto(e))
-                return mapped.filter(f => f.status === term);
-            }),
-            catchError(this.handleError)
-        );
-	}
+    getStatus(outletId?: number): Observable<Outlet[] | string> {
+		return this.http
+        	.get(`${APP.api.endpoints.STATUS}`)
+            .pipe(
+                map( (response: any) => response.data.map((e: OutletDto) => mapDto(e))),
+                catchError(this.handleError)
+            );
+    }
+
+    getHistory(): Observable<Outlet[] | string> {
+		return this.http
+        	.get(`${APP.api.endpoints.HISTORY}`)
+            .pipe(
+                map( (response: any) => response.data.map((e: OutletDto) => mapDto(e))),
+                catchError(this.handleError)
+            );
+    }
 
 	private handleError(err: HttpErrorResponse) {
 
@@ -50,8 +54,7 @@ export class DataService {
             // A client-side or network error occurred. Handle it accordingly.
             errorMessage = `An error occurred: ${err.error.message}`;
         } else {
-            // The backend returned an unsuccessful response code.
-            // The response body may contain clues as to what went wrong,
+            // FIXME: Not the way to handle exception
             switch(err.status) {
                 case 0: errorMessage = 'The application appears to be offline'; break;
                 case 400: errorMessage = `The content required to request this resource is not valid`; break;
@@ -64,15 +67,3 @@ export class DataService {
         return throwError(errorMessage);
     }
 }
-
-
-const OUTLETS: Array<OutletDto> = [
-    { id: 1, outlet: "1", state: "0", updatedOn: "Tue, 05 Nov 2014 13:44:35 GMT" },
-    { id: 1, outlet: "1", state: "1", updatedOn: "Tue, 05 Nov 2015 13:44:35 GMT" },
-    { id: 2, outlet: "2", state: "1", updatedOn: "Tue, 05 Nov 2016 13:44:35 GMT" },
-    { id: 1, outlet: "1", state: "1", updatedOn: "Tue, 05 Nov 2017 13:44:35 GMT" },
-    { id: 2, outlet: "2", state: "0", updatedOn: "Tue, 05 Nov 2018 13:44:35 GMT" },
-    { id: 2, outlet: "2", state: "0", updatedOn: "Tue, 05 Nov 2019 13:44:35 GMT" },
-    { id: 2, outlet: "2", state: "0", updatedOn: "Tue, 05 Nov 2020 13:44:35 GMT" },
-    { id: 2, outlet: "2", state: "0", updatedOn: "Tue, 05 Nov 2021 13:44:35 GMT" },
-]

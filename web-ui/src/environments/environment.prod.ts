@@ -1,4 +1,13 @@
+const apiServiceUrl: string = `192.168.0.30:8080/api`;
+
 export const environment = {
-  production: true,
-  apiServiceUrl: ''
+    production: false,
+    api: {
+        BASE_URL: apiServiceUrl,
+        endpoints: {
+            HISTORY: `${apiServiceUrl}/outlet/history`,
+            STATUS: `${apiServiceUrl}/outlet/status`,
+            UPDATE: `${apiServiceUrl}/outlet/update`,
+        }
+    }
 };

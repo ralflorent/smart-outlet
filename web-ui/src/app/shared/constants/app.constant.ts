@@ -11,6 +11,6 @@ import { environment as ENV } from '@env/environment';
  */
 export const APP = {
     api: {
-        BASE_URL: `${ENV.apiServiceUrl}/api`
+        ...ENV.api
     }
 };
