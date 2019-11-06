@@ -20,6 +20,8 @@
                     <mat-slide-toggle
                         [color]="'primary'"
                         [checked]="o.status == 'ON'"
+                        (change)="onUpdate(o)"
+                        [disabled]="loading"
                     >
                         Switch me {{ o.status == 'ON' ? 'off' : 'on' }}
                     </mat-slide-toggle>

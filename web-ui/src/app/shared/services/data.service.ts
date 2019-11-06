@@ -20,7 +20,7 @@ export class DataService {
 
 	constructor(private http: HttpClient) { }
 
-    setStatus(payload: {outlet: string, state: string}): Observable<Outlet | string> {
+    updateStatus(payload: {outlet: string, state: string|number}): Observable<Outlet | string> {
 		return this.http
         	.post(`${APP.api.endpoints.UPDATE}`, payload)
             .pipe(
