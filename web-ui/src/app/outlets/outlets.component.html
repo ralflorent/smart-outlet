@@ -1,3 +1,46 @@
-<p>
-  outlets works!
-</p>
+<div class="card-body text-left">
+    <h5 class="card-title text-center">
+        Outlets
+        <p class="small text-muted"> Switch them ON/OFF anywhere, anytime. </p>
+    </h5>
+    <hr class="gns-hr-separator gns-color-primary" />
+    <div class="container">
+        <mat-list>
+            <h3 mat-subheader>List of currently connected oultets</h3>
+            <mat-list-item *ngFor="let o of outlets">
+                <mat-icon mat-list-icon>{{ o.status == 'ON' ? 'power': 'power_off' }}</mat-icon>
+                <h4 mat-line>
+                    <mat-chip-list aria-label="Status">
+                        <mat-chip color="primary">{{o.name}}</mat-chip>
+                        <mat-chip [color]="o.status == 'ON' ? 'primary': 'accent'" selected>{{o.status}}</mat-chip>
+                    </mat-chip-list>
+                </h4>
+                <p mat-line>{{o.updatedOn | date: 'medium' }}</p>
+                <div class="float-right">
+                    <mat-slide-toggle
+                        [color]="'primary'"
+                        [checked]="o.status == 'ON'"
+                    >
+                        Switch me {{ o.status == 'ON' ? 'off' : 'on' }}
+                    </mat-slide-toggle>
+                </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+
+        <div *ngIf="loading" class="d-flex align-items-center">
+            <strong>Loading...</strong>
+            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+        </div>
+        <div *ngIf="!outlets && !loading" class="alert alert-info" role="alert">
+            No data available to display!
+        </div>
+
+        <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMsg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>

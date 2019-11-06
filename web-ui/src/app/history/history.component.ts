@@ -5,7 +5,7 @@
  * @author Ralph Florent <r.florent@jacobs-university.de>
  */
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 
 import { DataService } from '@shared/services';
@@ -19,20 +19,18 @@ import { Outlet } from '@shared/models';
 export class HistoryComponent implements OnInit {
 
 	outlets: Array<Outlet> = [];
-	searchTerm: string = '';
 	errorMsg: string = '';
 	loading: boolean = false;
 	dataSource: any;
 	columnNames: string[] = [];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-	@ViewChild(MatSort, { static: true }) sort: MatSort;
 
 	constructor(
 		private toastr: ToastrService,
 		private dataService: DataService
 	) { }
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.loading = true;
 		this.columnNames = ['name', 'status', 'updatedOn'];
 		this.dataService.getHistory()
@@ -41,16 +39,15 @@ export class HistoryComponent implements OnInit {
 					this.outlets = data;
 					this.dataSource = new MatTableDataSource<Outlet>(data);
 					this.dataSource.paginator = this.paginator;
-					this.dataSource.sort = this.sort;
 				},
 				(error: string) => {
 					this.loading = false;
                     this.errorMsg = error;
-                    this.toastr.error('Data have been loaded successfully', 'Success')
+                    this.toastr.error('Oops! Something went wrong')
 				},
 				() => {
                     this.loading = false;
-                    this.toastr.info('Data have been loaded successfully', 'Info')
+                    this.toastr.info('Data loaded successfully')
                 }
 			);
 	}

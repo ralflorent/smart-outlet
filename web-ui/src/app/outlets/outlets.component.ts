@@ -5,17 +5,43 @@
  * @author Ralph Florent <r.florent@jacobs-university.de>
  */
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+
+import { DataService } from '@shared/services';
+import { Outlet } from '@shared/models';
 
 @Component({
-  selector: 'so-outlets',
-  templateUrl: './outlets.component.html',
-  styleUrls: ['./outlets.component.scss']
+    selector: 'so-outlets',
+    templateUrl: './outlets.component.html',
+    styleUrls: ['./outlets.component.scss']
 })
 export class OutletsComponent implements OnInit {
 
-  constructor() { }
+    outlets: Array<Outlet> = [];
+	errorMsg: string = '';
+	loading: boolean = false;
 
-  ngOnInit() {
-  }
+    constructor(
+		private toastr: ToastrService,
+		private dataService: DataService
+	) { }
 
+    ngOnInit(): void {
+		this.loading = true;
+		this.dataService.getStatus()
+			.subscribe(
+				(data: Outlet[]) => {
+					this.outlets = data;
+				},
+				(error: string) => {
+					this.loading = false;
+                    this.errorMsg = error;
+                    this.toastr.error('Oops! Something went wrong')
+				},
+				() => {
+                    this.loading = false;
+                    this.toastr.info('Data loaded successfully')
+                }
+			);
+    }
 }

@@ -7,7 +7,10 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
-    MatSortModule
+    MatListModule,
+    MatIconModule,
+    MatChipsModule,
+    MatSlideToggleModule
 } from '@angular/material';
 
 
@@ -21,7 +24,10 @@ import {
         MatTableModule,
         MatPaginatorModule,
         MatInputModule,
-        MatSortModule,
+        MatListModule,
+        MatIconModule,
+        MatSlideToggleModule,
+        MatChipsModule,
         ToastrModule.forRoot(
             {
                 timeOut: 3000,
@@ -38,7 +44,10 @@ import {
         MatTableModule,
         MatPaginatorModule,
         MatInputModule,
-        MatSortModule,
+        MatListModule,
+        MatIconModule,
+        MatSlideToggleModule,
+        MatChipsModule,
         ToastrModule
     ]
 })

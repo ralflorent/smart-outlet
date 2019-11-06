@@ -18,8 +18,8 @@ export function map(dto: OutletDto): Outlet {
 
     return {
         id: dto.id,
-        name: dto.outlet,
-        status: dto.state === '1'? 'ON' : 'OFF',
+        name: dto.outlet as string,
+        status: dto.state == '1'? 'ON' : 'OFF',
         updatedOn: date
     };
 }
