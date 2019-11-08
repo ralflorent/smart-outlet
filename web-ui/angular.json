@@ -23,17 +23,18 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/assets/js/jquery.min.js",
-              "src/assets/js/popper.min.js",
-              "src/assets/js/bootstrap.min.js",
               "src/favicon.ico",
-              "src/assets"
+              "src/assets/img"
             ],
             "styles": [
               "src/assets/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+                "src/assets/js/jquery.min.js",
+                "src/assets/js/popper.min.js",
+                "src/assets/js/bootstrap.min.js"
+              ],
             "es5BrowserSupport": true
           },
           "configurations": {
@@ -79,6 +80,9 @@
           "configurations": {
             "production": {
               "browserTarget": "smart-outlet:build:production"
+            },
+            "qa": {
+              "browserTarget": "smart-outlet:build:qa"
             }
           }
         },
@@ -99,13 +103,14 @@
               "src/assets/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "assets": [
+            "scripts": [
               "src/assets/js/jquery.min.js",
               "src/assets/js/popper.min.js",
-              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/bootstrap.min.js"
+            ],
+            "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets/img"
             ]
           }
         },

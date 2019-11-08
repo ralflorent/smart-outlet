@@ -21,6 +21,8 @@
     "start": "ng serve --open",
     "build": "ng build",
     "build:prod": "ng build --prod",
+    "start:qa": "ng serve -c qa",
+    "build:qa": "ng build -c qa",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
