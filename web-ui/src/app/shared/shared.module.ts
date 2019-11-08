@@ -12,6 +12,7 @@ import {
     MatChipsModule,
     MatSlideToggleModule
 } from '@angular/material';
+import { PlotlyViaWindowModule } from 'angular-plotly.js';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {
                 positionClass: 'toast-top-right',
                 preventDuplicates: true,
             }
-        )
+        ),
+        PlotlyViaWindowModule
     ],
     exports: [
         CommonModule,
@@ -48,7 +50,8 @@ import {
         MatIconModule,
         MatSlideToggleModule,
         MatChipsModule,
-        ToastrModule
+        ToastrModule,
+        PlotlyViaWindowModule
     ]
 })
 export class SharedModule { }

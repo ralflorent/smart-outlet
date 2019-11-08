@@ -17,15 +17,15 @@
             </div>
         </div>
         <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" matSort>
+            <table mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="name">
-                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
+                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef>
                         Outlet </th>
                     <td mat-cell data-label="name" *matCellDef="let o"> {{ o.name }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="status">
-                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
+                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef>
                         Status </th>
                     <td [ngClass]="{'text-success': o.status == 'ON', 'text-danger': o.status == 'OFF'}"
                         data-label="status" mat-cell *matCellDef="let o">
@@ -34,7 +34,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="updatedOn">
-                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef>
+                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef>
                         Last Updated </th>
                     <td mat-cell data-label="last updated" *matCellDef="let o">
                         {{ o.updatedOn | date: 'medium' }} </td>
@@ -61,5 +61,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+        <br>
+        <plotly-plot *ngIf="!loading" [data]="graph.data" [layout]="graph.layout"></plotly-plot>
     </div>
 </div>

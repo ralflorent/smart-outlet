@@ -5,12 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from "@angular/forms";
 
 import { SharedModule } from '@shared/shared.module';
+import { DataService } from '@shared/services';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { OutletsComponent } from './outlets/outlets.component';
 import { HistoryComponent } from './history/history.component';
-import { DataService } from './shared/services/data.service';
 
 
 @NgModule({

@@ -33,7 +33,8 @@
             "scripts": [
                 "src/assets/js/jquery.min.js",
                 "src/assets/js/popper.min.js",
-                "src/assets/js/bootstrap.min.js"
+                "src/assets/js/bootstrap.min.js",
+                "node_modules/plotly.js/dist/plotly.min.js"
               ],
             "es5BrowserSupport": true
           },
