@@ -7,7 +7,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
-import { DataService } from '@shared/services';
+import { DataService } from '@core/services';
 import { Outlet } from '@shared/models';
 
 const COUNTDOWN_VALUE: number = 30;

@@ -12,6 +12,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "paths": {
+        "@core/*": ["src/app/core/*"],
         "@shared/*": ["src/app/shared/*"],
         "@env/*": ["src/environments/*"]
     },

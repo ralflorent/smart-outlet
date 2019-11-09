@@ -9,7 +9,7 @@ import { DatePipe } from '@angular/common';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 
-import { DataService } from '@shared/services';
+import { DataService } from '@core/services';
 import { Outlet } from '@shared/models';
 
 @Component({
