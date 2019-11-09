@@ -56,7 +56,8 @@ export class HistoryComponent implements OnInit {
                     const outlets1 = this.outlets.filter(o => o.name == '1');
                     const outlets2 = this.outlets.filter(o => o.name == '2');
 
-                    this.graph.data.splice(0, this.graph.data.length); // empty array
+                    // this.graph.data.splice(0, this.graph.data.length); // empty array
+                    this.graph.data['removeAll'](); // augmented Array<T>.prototype
                     this.graph.data.push(this.prepareGraphData(outlets1));
                     this.graph.data.push(this.prepareGraphData(outlets2));
 				},
