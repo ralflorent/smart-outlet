@@ -20,17 +20,17 @@ For the use case *Retrieve the current outlet statuses*, the specs are the follo
 * endpoint: `/api/outlet/status`
 
 *RESPONSE*:
-```
+```json
 {
   "data": [
     {
-      "outlet": 1, 
-      "state": 1, 
+      "outlet": 1,
+      "state": 1,
       "updatedOn": "Tue, 05 Nov 2019 14:20:56 GMT"
-    }, 
+    },
     {
-      "outlet": 2, 
-      "state": 0, 
+      "outlet": 2,
+      "state": 0,
       "updatedOn": "Tue, 05 Nov 2019 14:57:10 GMT"
     }
   ]
@@ -47,7 +47,7 @@ For the use case *Set an outlet status*, the specs are the following:
 * method: `POST`
 * endpoint: `/api/outlet/update`
 * body:
-```
+```json
 {
   "outlet": 2,
   "state": 1,
@@ -55,7 +55,7 @@ For the use case *Set an outlet status*, the specs are the following:
 ```
 
 *RESPONSE*:
-```
+```json
 {
   "id": 29,
   "outlet": 2,
@@ -76,27 +76,27 @@ For the use case *Retrieve the history of the outlet statuses*, the specs are th
 * endpoint: `/api/outlet/history`
 
 *RESPONSE*:
-```
+```json
 {
   "data": [
     {
-      "id": 1, 
-      "outlet": 2, 
-      "state": 1, 
+      "id": 1,
+      "outlet": 2,
+      "state": 1,
       "updatedOn": "Tue, 05 Nov 2019 13:40:32 GMT"
-    }, 
+    },
     {
-      "id": 2, 
-      "outlet": 2, 
-      "state": 0, 
+      "id": 2,
+      "outlet": 2,
+      "state": 0,
       "updatedOn": "Tue, 05 Nov 2019 13:44:05 GMT"
-    }, 
+    },
     {
-      "id": 3, 
-      "outlet": 1, 
-      "state": 1, 
+      "id": 3,
+      "outlet": 1,
+      "state": 1,
       "updatedOn": "Tue, 05 Nov 2019 13:44:35 GMT"
-    }, 
+    },
     ...
   ]
 }

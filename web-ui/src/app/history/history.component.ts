@@ -41,8 +41,8 @@ export class HistoryComponent implements OnInit {
         this.columnNames = ['name', 'status', 'updatedOn'];
         this.graph.layout = {
             title: 'Overview of historical switch ON/OFF actions',
-            xaxis: { type: 'date', title: 'Date'},
-            yaxis: { title: 'Number of times switched'},
+            xaxis: { type: 'date', title: 'Date' },
+            yaxis: { title: 'Number of times switched' },
             responsive: true
         };
 		this.dataService.getHistory()
@@ -53,13 +53,14 @@ export class HistoryComponent implements OnInit {
                     this.dataSource.paginator = this.paginator;
 
                     // get ready for plots
-                    const outlets1 = this.outlets.filter(o => o.name == '1');
-                    const outlets2 = this.outlets.filter(o => o.name == '2');
-
-                    // this.graph.data.splice(0, this.graph.data.length); // empty array
                     this.graph.data['removeAll'](); // augmented Array<T>.prototype
-                    this.graph.data.push(this.prepareGraphData(outlets1));
-                    this.graph.data.push(this.prepareGraphData(outlets2));
+
+                    Object
+                        .values(this.groupOutletsByName(data))
+                        .forEach(outlets =>
+                            this.graph.data.push(this.prepareGraphData(outlets))
+                        )
+                    ;
 				},
 				(error: string) => {
 					this.loading = false;
@@ -82,9 +83,24 @@ export class HistoryComponent implements OnInit {
         this.ngOnInit(); // reload tables
     }
 
+    private groupOutletsByName(outlets: Array<Outlet>): { [key: string]: Array<Outlet> } {
+        // what are the existing names
+        const result: { [key: string]: Array<Outlet> } = {};
+
+        const availableNames: Array<string> = [];
+        outlets.forEach(o => {
+            if (!availableNames.includes(o.name)) // make them unique
+                availableNames.push(o.name);
+        });
+
+        // group them now as: { 'name': [...outlets] }
+        availableNames.forEach(name => result[name] = outlets.filter(o => o.name === name));
+        return result;
+    }
+
     private prepareGraphData(outlets: Outlet[]): any {
         if (0 >= outlets.length)
-            return;
+            return {};
 
         const sample = outlets[0];
         const data = {
@@ -92,12 +108,12 @@ export class HistoryComponent implements OnInit {
             y: [],
             // type: 'scatter',
             // mode: 'lines+points',
-            // marker: { color: `${sample.name == '1'? 'blue': 'orange'}` },
+            // marker: { color: `${sample.name == '1'? 'blue' : 'orange'}` },
             name: `Outlet ${sample.name}`
         };
         const days = {}; // expecting: { 'yyyy-MM-dd': 1+ }
 
-        // group by same date ('yyyy-MM-dd)
+        // group by same date ('yyyy-MM-dd')
         for (const o of outlets) {
             const day = this.datePipe.transform(o.updatedOn, 'yyyy-MM-dd');
             if ( Object.keys(days).includes(day) )
