@@ -29,7 +29,7 @@ export class DataService {
             );
     }
 
-    getStatus(outletId?: number): Observable<Outlet[] | string> {
+    getStatus(outletId?: number): Observable<Outlet[] | any | string> {
 		return this.http
         	.get(`${APP.api.endpoints.STATUS}`)
             .pipe(

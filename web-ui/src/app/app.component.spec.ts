@@ -3,33 +3,33 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  });
+    // Component view tests
+    describe('Shallow integration tests', () => {
 
-  it(`should have as title 'smart-outlet'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('smart-outlet');
-  });
+        beforeEach(async(() => {
+            TestBed.configureTestingModule({
+                imports: [
+                    RouterTestingModule
+                ],
+                declarations: [
+                    AppComponent
+                ],
+            }).compileComponents();
+        }));
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to smart-outlet!');
-  });
+        it('should create the app', () => {
+            const fixture = TestBed.createComponent(AppComponent);
+            const app = fixture.debugElement.componentInstance;
+            expect(app).toBeTruthy();
+        });
+
+    });
+
+    // Component logic tests
+    describe('Isolated unit tests', () => {
+
+        it('No logic tests are available for this component');
+
+    });
 });

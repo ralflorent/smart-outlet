@@ -18,7 +18,7 @@ export function map(dto: OutletDto): Outlet {
 
     return {
         id: dto.id,
-        name: dto.outlet as string,
+        name: String(dto.outlet),
         status: dto.state == '1'? 'ON' : 'OFF',
         updatedOn: date
     };
