@@ -2,6 +2,19 @@
 
 The Web UI module of this project is basically an Angular-based application.
 
+## Docker container
+The web application is also available as a [docker container](https://hub.docker.com/r/ralflorent/smart-outlet) for demo purposes by using an online mock API (mocky.io) to make available the API responses.
+
+Having docker installed, an example of how to run a container of this image is:
+```
+docker container run --name so -p 4000:80 ralflorent/smart-outlet:1.0.0
+```
+Then, launch `http://localhost:4000` in your default browser.
+
+PS: *Note that we are assuming that the chosen port 4000 is not taken already. Otherwise, change it to another available port number.*
+
+For more info on Docker, please view this [page](https://www.docker.com/).
+
 ## Application creation
 The app or web-ui is created with [Angular CLI](https://cli.angular.io/). Below is detailed the command used to do so.
 ```
