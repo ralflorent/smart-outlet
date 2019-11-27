@@ -18,7 +18,7 @@
 \section{Methodology}
 In this section, we describe the techniques and strategies as well as the procedural methods used to implement the core functionality of this project. This description includes the components of the system, the workflow diagram, the third-party libraries, the algorithm and data structure, and finally, the code implementation.
 
-It is important to stand out the fact that we use external resources to come up with daily results in terms of programming tools and full-on working devices. That is, before adventuring into using the materials and devices as well as certain software tools, different research sources were consulted. Some of these resources are: the datasheets of the prebuilt modules of the materials, the assistance of the instructor and teaching assistants (TAs), search engines (mainly Google Search/Internet), and finally some related books and references (e.g. materials provided by the professor).
+It is important to stand out the fact that we use external resources to come up with daily results in terms of programming tools and full-on working devices. That is, before adventuring into using the materials and devices as well as certain software tools, different research sources were consulted. Some of these resources are: the datasheets of both the prebuilt modules and the materials, the assistance of the instructor and teaching assistants (TAs), search engines (mainly Google Search/Internet), and finally some related books and references (e.g. materials provided by the professor).
 
 Being exceptionally helpful, these resources have been the source of truth for any decision-making regarding the correct use of the hardware modules.
 
@@ -33,29 +33,43 @@ Roughly speaking, Smart Outlet comprises 3 (three) principal modules:
 Each one of these modules deep down contains a set of characteristics that requires more than a brief description to highlight their corresponding functionality. However, in this document, we intend to only explain how to connect them together and make them work properly as a whole. We indeed provide full access to the online repository as specified in Appendix \ref{sec:code-repo} so that anyone can dig any further into the datasheets if needs be.
 
 \subsection{Workflow diagram}
-The Smart Outlet project has an easy-to-understand workflow. This workflow explains how each module is connected to each other (not fully as in a mesh connection) and performs a specific task. In the section, we provide a diagram and explain the corresponding role of the inner contents taking part in that workflow in other to achieve the complete functionality of Smart Outlet as a whole.
+The Smart Outlet project has an easy-to-understand workflow. This workflow explains how each module is connected to each other (not fully as in a mesh connection) and performs a specific task. In this case, we provide a diagram and explain the corresponding role of the inner contents taking part in that workflow in other to achieve the complete functionality of Smart Outlet as a whole.
 
 As shown in Figure \ref{fig:workflow-diagram}, the workflow diagram consists of the following parts:
 \begin{itemize}
-    \item some end-user devices accessing the web application
-    \item a server infrastructure attending requests over TCIP/IP network
-    \item the webduino connected to the same network waiting to update the states of the outlets, if any.
+    \item \textit{Devices accessing the web application}: a user can use smartphones or desktops (laptops) to access and load the web application. This end-user device should be connected to the local area network (LAN) with this IP: \texttt{192.168.0.0/24}.
+    \item \textit{Server infrastructure}:
+    \begin{itemize}
+        \item an HTTP server to serve the website when the user browses its web address\footnote{Note that a web address in this case is the associated IP address and the port where the Apache 2.0 service is running. (e.g 192.168.0.105:4200)};
+        \item an API service to attend request from consumers (webduino and web app).
+    \end{itemize}
+    \item \textit{Webduino}: the hardware module or prototype connected to the same network waiting to update the states of the outlets, if any.
+    \item \textit{Router}: actually working as a switch, assures connectivity and communication between the other components of the system.
 \end{itemize}
 
+\textbf{\textit{Important}}: \textit{Although every connected device lands on the same network, it is highly important to understand that no direct connectivity between the wep application and the webduino is established. Refer to UML diagram in Figure \ref{fig:uml-diagram} to get a better idea of how this interaction is made. To illustrate this point, if we had architected the diagramming system this way, we would confront serious problems at the time of taking the web service to public. That is, routing to a local IP (when there are some many security concerns to consider) would definitely be troublesome.}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.33]{workflow.png}
+    \caption{Workflow diagram - this is an architecture diagram that displays how every component of the system is interconnected in a real-world situation. (credits: made with \emph{Lucidchart})}
+    \label{fig:workflow-diagram}
+\end{figure}
+
 \noindent
-How do the components interact with each other?
+How do the components interact with each other? Observe the \emph{UML (Unified Modeling Language)} in Figure \ref{fig:uml-diagram} to grasp the idea faster as it is a visual aid to display the sequence of events occurring when the prototype is operating.
 \begin{enumerate}
-    \item given the initial conditions, where all the components are up and running properly\footnote{The devices (database, API web service, webduino) should be powered on and running. Each device should be assigned a local IP address and should be reachable by other devices over the network.}
-    \item the webduino will constantly attempt to request the last states of the power outlets from the web API service. Once obtained the data over Wi-Fi, it proceeds by updating the states of the relays, which in turn will open or close the switch of a power outlet.
-    \item A user accessing web browser may view the last updates of the power outlets. When a user updates\footnote{Set an update for a power outlet is basically to change its state from ON-OFF or viceversa.} the state of an outlet, the changes are saved into the database through the API service and immediately (~2 seconds) reflected in the webduino.
+    \item Given the initial conditions, all the components are considered up and running properly;\footnote{The devices (database, API web service, webduino) should be powered on and running. Each device should be assigned a local IP address and should be reachable by other devices over the network.}
+    \item A user accessing a web browser may load and view the last updates of the power outlets. When a user updates\footnote{Set an update for a power outlet is basically to change its state from ON-OFF or viceversa.} the state of an outlet, the changes are saved into the database through the API service and immediately (~2 seconds) reflected in the webduino.
+    \item The webduino will constantly attempt to request the last states of the power outlets from the web API service. Once obtained the data, it proceeds by updating the states of the relays, which in turn will open or close the switch of the corresponding power outlet(s).
     \item The historical records can also be visualized on a separate views using both a tabular form and a scatter plot.
 \end{enumerate}
 
-\begin{figure}[!ht]
+\begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.33]{workflow.png}
-    \caption{Workflow diagram \\ (credits: made with \emph{Lucidchart})}
-    \label{fig:workflow-diagram}
+    \includegraphics[scale=0.33]{uml.png}
+    \caption{UML sequence diagram - this shows how every object (web app, API, webduino) within the Smart Outlet system interacts with each other and the order where these interactions take place. (credits: made with \emph{Lucidchart})}
+    \label{fig:uml-diagram}
 \end{figure}
 
 \subsection{Algorithm and data structure}
