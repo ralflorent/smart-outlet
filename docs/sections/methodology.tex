@@ -73,6 +73,54 @@ How do the components interact with each other? Observe the \emph{UML (Unified M
 \end{figure}
 
 \subsection{Algorithm and data structure}
+Recall that the project touches different development environments. These environments require different architectures, techniques of programming as well as the programming languages used. As the line of thinking is different for every module, this section discusses separately each environment and eventually shows how they relate to each other.
+
+\subsubsection{Webduino}
+The Smart Outlet prototype, also known as \emph{webduino}, is the final integrated piece of hardware obtained when combining together the microcontroller (Arduino board), the relay module, and the Wi-Fi (ESP8266-01) module. Since we are dealing with different kinds of prebuilt  submodules, we proceed by evaluating their functionality under a pilot conceptual test. More details on these tests are provided in Section \ref{sec:res-and-disc}.
+
+Arduino supports coding in C/C++ and the concept of Object-Oriented Programming (OOP). This gives us an advantage on how to better organize the code. After different attempts to optimize the code, we end up using a class-based structure that faciliates the handling of the relay, that is, the \textit{ON-OFF} switch, and finally, convert it into a reusable library. Observe for example in Listing \ref{lst:outlet-class} the class definition representing an outlet.
+
+\begin{listing}[H]
+    \inputminted
+    [
+        frame=lines,
+        framesep=2mm,
+        baselinestretch=1.2, % interspace size
+        bgcolor=lightgray,
+        fontsize=\footnotesize,
+        linenos % show line numbers
+    ]
+    {cpp}{scripts/outlet-class.h}
+    \caption{Example of class definition of \textcolor{blue}{Outlet}}
+    \label{lst:outlet-class}
+\end{listing}
+
+We create and use other utilities as well as helper functions to achieve the final implementation. Similarly, we use this external library  \textit{ArduinoJson} to parse JSON data coming from the server.
+
+The overall logic is quite simple: when the Arduino starts, the submodules' setups are initialized and then fall in an infinite \emph{loop} while executing an updating status check from the API service. Note the same coded logic in Listing \ref{lst:outlet-update}. Keep in mind that the entire code is publicly available and can be consulted for further reading and understanding as specified in Appendix \ref{sec:code-repo}.
+
+\begin{listing}[H]
+    \inputminted
+    [
+        frame=lines,
+        framesep=2mm,
+        baselinestretch=1.2, % interspace size
+        bgcolor=lightgray,
+        fontsize=\footnotesize,
+        linenos % show line numbers
+    ]
+    {c}{scripts/outlet-update.c}
+    \caption{Continuous checks for updating relays' states}
+    \label{lst:outlet-update}
+\end{listing}
+
+After running sample tests for every separate module, we put them all together and test them out as one module. And to run the webduino independently, we make the response data available by using a mock API.
+
+\subsubsection{Web API}
+
+
+\subsubsection{Web Application}
+
 
 \subsection{Code implementation}
 % ==============================================================================
