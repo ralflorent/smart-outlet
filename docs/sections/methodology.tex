@@ -51,7 +51,7 @@ As shown in Figure \ref{fig:workflow-diagram}, the workflow diagram consists of 
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.33]{workflow.png}
+    \includegraphics[scale=0.33]{diagrams/workflow.png}
     \caption{Workflow diagram - this is an architecture diagram that displays how every component of the system is interconnected in a real-world situation. (credits: made with \emph{Lucidchart})}
     \label{fig:workflow-diagram}
 \end{figure}
@@ -67,7 +67,7 @@ How do the components interact with each other? Observe the \emph{UML (Unified M
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.33]{uml.png}
+    \includegraphics[scale=0.33]{diagrams/uml.png}
     \caption{UML sequence diagram - this shows how every object (web app, API, webduino) within the Smart Outlet system interacts with each other and the order where these interactions take place. (credits: made with \emph{Lucidchart})}
     \label{fig:uml-diagram}
 \end{figure}
@@ -114,13 +114,45 @@ The overall logic is quite simple: when the Arduino starts, the submodules' setu
     \label{lst:outlet-update}
 \end{listing}
 
-After running sample tests for every separate module, we put them all together and test them out as one module. And to run the webduino independently, we make the response data available by using a mock API.
+After running the sample tests for every separate module, we put them all together and test them out as one module. And to run the webduino independently, we make the response data available by using a mock API.
 
 \subsubsection{Web API}
 
 
 \subsubsection{Web Application}
+The Web App (short for web application), also known as the \emph{Web UI} module of this project, is basically an Angular-based\footnote{Consult the README.md markdown file to learn about the installation and running process when using Angular.} application. \href{https://angular.io}{Angular} is a JavaScript framework used for building web applications in a fast yet effective manner. It contains appealing features and is powered by Google.
 
+As a single web application, the routing done via views. The main components or views of the web app are:
+\begin{itemize}
+    \item \textit{\textcolor{blue}{home}}: a splash screen page serving as the entry point of the web app (see Figure \ref{fig:ui-home}). It also describes the web page purposes.
+    \item \textit{\textcolor{blue}{outlets}}: a page to perform updates on the outlets' states (See Figure \ref{fig:ui-outlets}). A user can both view and change the states of the currently available outlets.
+    \item \textit{\textcolor{blue}{history}}: a page to have a basic overview of the past saved data (see Figure \ref{fig:ui-history}).
+\end{itemize}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.15]{screenshots/web-app/home.png}
+    \caption{View of the home page}
+    \label{fig:ui-home}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.15]{screenshots/web-app/outlets.png}
+    \caption{View of the outlets page}
+    \label{fig:ui-outlets}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.15]{screenshots/web-app/history.png}
+    \caption{View of the history page}
+    \label{fig:ui-history}
+\end{figure}
+
+We do not detail much about the algorithm and data structure used for the web application since the main focus is not on how to build a web page efficiently. However, any curious developer is welcome to check the \textit{README} content of the web page to learn more about how to take a web app from development to production. Be aware that the programming techniques are strongly advanced and robust.
+
+In addition to that, the web app is unit-tested and dockerized.
 
 \subsection{Code implementation}
 % ==============================================================================
