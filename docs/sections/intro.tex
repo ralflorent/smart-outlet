@@ -18,9 +18,80 @@
 % ==============================================================================
 
 \section{Introduction}
-\textit{[Here goes the introductory part of the documentation...]}
 
-%  Do not forget to mention here: goals, problem-solution aspects, keywords (glossary)
+In this report, the solution, specification, and outcomes of the project of a
+Smart Outlet is presented as part of the course \textit{Data Acquisition
+Technologies and Sensor Networks} grading criteria. The course proposes to
+design a wireless sensor network communicating via a web interface with a
+database. The recorded data should be visualized graphically through a
+web interface.
+
+In this section, we describe our proposed solution, its motivation, and comment
+on this report organization.
+
+\subsection{Solution Proposal}
+
+The so-called Smart Outlet (SO) is a power outlet remotely controlled via a webpage
+interface. The solution offers a switch \textit{on/off}, which can be toggled
+through the previously mentioned webpage. The same webpage also provides a
+monitoring feature that allows the users to verify the states of the SO
+throughout time tabular and graphically.
+
+The components of the macro solution of the project are given follows:
+
+\begin{itemize}
+    \item \textbf{Hardware component:} the power outlet, the controller device,
+    and the wireless communication interface;
+    \item \textbf{Webpage:} web-interface for controlling the SO states;
+    \item \textbf{Database:} relational database for storing the states of the SO.
+\end{itemize}
+
+Further details of the solution are introduced in Sections
+\ref{sec:inst-resour} and \ref{sec:methodology}.
+
+In this project, we decided to constrain the SO range to a Wireless Local Area
+Network (WLAN). However, this limitation can be overcome by exposing the SO
+solution in a public HTTP interface. This feature may be implemented in a
+possible next step of this project (out of scope in this report).
+
+\subsection{Motivation}
+
+Besides being a requirement to the successful completion of the course
+\textit{Data Acquisition Technologies and Sensor Networks}, building the SO
+offers many advantages to a possible end user. For these reasons, we
+decided to implement a prototype for this solution. These advantages are
+described as follows:
+
+\begin{itemize}
+    \item \textbf{Convenient usability:} the SO can be controlled from any place
+    considering that the webpage may be exposed publicly via HTTP requests;
+    \item \textbf{Energy saving:} the user can track the SO state and turn it
+    off when considering that it has been unnecessarily used;
+    \item \textbf{Multiple users:} the solution enables the access of different
+    users through different platforms by only requiring a device that can access
+    and visualize webpages exposed on the internet. In other words, users with
+    computers, smartphones, and tablets can control the SO.
+\end{itemize}
+
+\subsection{Note on the Report Structure}
+
+Before the next Sections of the report, technical details, and results are
+presented, let us briefly enlighten how this report is structured as follows:
+
+\begin{itemize}
+    \item \textbf{Theoretical review:} theoretical and technical details of the
+    chosen hardware components are briefly presented;
+    \item \textbf{Instrumentation \& resources:} the integration of the hardware
+    and software of the SO prototype is detailed;
+    \item \textbf{Methodology:} the techniques, strategies, and procedural
+    methods used to implement the core functionality of the project are
+    presented;
+    \item \textbf{Results \& discussions:} results obtained with the SO
+    prototype implementation.
+\end{itemize}
+
+%  Do not forget to mention here: goals, problem-solution aspects, keywords
+%  (glossary)
 
 % ==============================================================================
 % END: Intro

@@ -36,6 +36,27 @@ def check_outlet_status():
     cur.close()
     return (jsonify(response))
 
+# GET request to check the outlets status 
+@app.route('/api/outlet/statusino')
+def check_outlet_statusino():
+    response = {"data": []}
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * from connections WHERE outlet = 1 ORDER BY updatedOn DESC")
+    data_outlet_1 = cur.fetchone()
+    query_dict = {
+        "outlet": data_outlet_1[1],
+        "state": data_outlet_1[2]
+        }
+    response["data"].append(query_dict)
+    cur.execute("SELECT * from connections WHERE outlet = 2 ORDER BY updatedOn DESC")
+    data_outlet_2 = cur.fetchone()
+    query_dict = {
+        "outlet": data_outlet_2[1],
+        "state": data_outlet_2[2]
+    }
+    response["data"].append(query_dict)
+    cur.close()
+    return (jsonify(response))
 
 # POST request to update the oulets status
 @app.route('/api/outlet/update', methods=['POST'])
@@ -54,7 +75,7 @@ def update_outlet_request():
     return(jsonify(response))
 
 
-# GET request to  the historical data 
+# GET request to the historical data 
 @app.route('/api/outlet/history')
 def get_historical_data():
     response = {"data": []}

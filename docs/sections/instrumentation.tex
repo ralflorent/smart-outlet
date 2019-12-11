@@ -11,13 +11,14 @@
 %   Diogo Cosin <d.ayresdeoliveira@jacobs-university.de>
 %   Eno Ciraku <e.ciraku@jacobs-university.de>
 %
-% Intrumentation and Resources of the documentation
+% Instrumentation and Resources of the documentation
 
 % ==============================================================================
 % START: Intrumentation & Resources
 % ==============================================================================
 
 \section{Intrumentation \& Resources}
+\label{sec:inst-resour}
 Recalling that the SO prototype is the complete integration of a set of hardware and software, we detail in this section more in-depth specifications on them. Below are enlisted the tools used to set up and carry out successfully the current version of the project.
 
 \subsection{Hardware and other materials}
@@ -55,10 +56,21 @@ remain useful to connect the different components and have them work as one stab
 \noindent
 \textbf{Notes}: Observe that the monetary budget reaches the sum of \euro{28,97} for only one SO prototype that eventually includes the monitoring and control of 4 (four) power outlets. Most of the materials were bought online on \href{https://www.amazon.de/}{Amazon.de} and some of them, provided by the \emph{Data Acquisition} lab.
 
-Considering that the main purpose of building this prototype is totally educational, we do not account for commercial goals. Obviously, this leaves room for improvement in the future if we want to aim for industrialization of the project. That signifies at some point we might need to rethink the choosing of tools and software in order to optimize the build of the hardware module, which may, in turn, favor a cost reduction in our financial records.
+Considering that the main purpose of building this prototype is educational, we
+do not account for commercial goals. That leaves room for improvement in the
+future if we want to aim for industrialization of the project. That signifies
+that, at some point, we might need to rethink the choice of tools and software
+to optimize the build of the hardware module, which may, in turn, favor
+a cost reduction in our financial records.
 
 \subsection{Tools and software}
-As for the programming tools used to create, debug, maintain the code of Smart Outlet at both hardware- and software-level, we use free programs yet efficient that are available for most of the OS\footnote{OS: Operating Systems like Windows, Mac OS, Linux, and so on.} platforms. These programs are of different types such as code editors (e.g Visual Studio Code), compilers (e.g LaTeX), online platforms (e.g GitHub) and so forth. With that being said, we present the set of tools and software used at the time of implementing the prototype:
+As for the programming tools used to create, debug, maintain the code of the Smart
+Outlet at both hardware- and software-level, we use free programs yet efficient
+that are available for most of the OS\footnote{OS: Operating Systems like
+Windows, Mac OS, Linux, and so on.} platforms. These programs are of different
+types such as code editors (e.g Visual Studio Code), compilers (e.g LaTeX),
+online platforms (e.g GitHub), and so forth. With that being said, we present
+the set of tools and software used at the time of implementing the prototype:
 \begin{itemize}
     \item Operating systems (GNU/Linux, Mac OS, and Windows)
     \item Visual Studio Code (lightweight text editor)
@@ -94,7 +106,7 @@ As for the programming tools used to create, debug, maintain the code of Smart O
     \end{center}
 \end{table}
 
-Regarding the software versions, it is highly recommended to use the exact versions mentioned in Table \ref{table:tools-and-software} to avoid conflicts and compiling errors. On the other hand, the developer may want dig into the breaking changes (if that is the case) that most of the time require to refactor parts of the implementation to have a fully working prototype. However, it is also recommended to check the \emph{changelog} of the updates or releases, if there are any.
+Regarding the software versions, it is highly recommended to use the exact versions mentioned in Table \ref{table:tools-and-software} to avoid conflicts and compiling errors. On the other hand, the developer may want to dig into the breaking changes (if that is the case) that most of the time require to refactor parts of the implementation to have a fully working prototype. However, it is also recommended to check the \emph{changelog} of the updates or releases, if there are any.
 
 Note that some tools mentioned above are just a matter of personal preferences. Other preferred options are more than welcome as long as the developer keeps in mind the development speed and productivity. For example, many developers would choose \href{https://www.sublimetext.com/}{Sublime} over \emph{Visual Studio Code}. But they both end up facilitating the same routine: text edition.
 
@@ -102,12 +114,12 @@ Note that some tools mentioned above are just a matter of personal preferences. 
 Finally, we use the following programming languages:
 \begin{itemize}
     \item C/C++ (for the webduino)
-    \item Python (for the web API service)
+    \item Python with the micro web framework Flask (for the web API service)
     \item Angular Framework - JavaScript/TypeScript (for the web application)
 \end{itemize}
 
 \noindent
-\textbf{Important}: \textit{Though we highly recommend that the exact versions of the software and the exact models of the materials and devices are used to test out or replicate this project, keep in mind that these hardware might no longer be available in the market as well as the software components might be outdated at some point in time. If that is the case, stay alerted to the updates as we intend to support this project until 2022.}
+\textbf{Important}: \textit{Though we highly recommend that the exact versions of the software and the exact models of the materials and devices are used to test out or replicate this project, keep in mind that these hardware might no longer be available in the market as well as the software components might be outdated at some point in time. If that is the case, stay alert to the updates as we intend to support this project until 2022.}
 
 % ==============================================================================
 % END: Intrumentation & Resources

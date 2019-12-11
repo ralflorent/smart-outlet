@@ -16,38 +16,53 @@
 % ==============================================================================
 
 \section{Methodology}
-In this section, we describe the techniques and strategies as well as the procedural methods used to implement the core functionality of this project. This description includes the components of the system, the workflow diagram, the third-party libraries, the algorithm and data structure, and finally, the code implementation.
+\label{sec:methodology}
+In this section, we describe the techniques and strategies, as well as the procedural methods used to implement the core functionality of this project. This description includes the components of the system, the workflow diagram, the third-party libraries, the algorithm and data structure, and finally, the code implementation.
 
-It is important to stand out the fact that we use external resources to come up with daily results in terms of programming tools and full-on working devices. That is, before adventuring into using the materials and devices as well as certain software tools, different research sources were consulted. Some of these resources are: the datasheets of both the prebuilt modules and the materials, the assistance of the instructor and teaching assistants (TAs), search engines (mainly Google Search/Internet), and finally some related books and references (e.g. materials provided by the professor).
+It is essential to stand out the fact that we use external resources to come up
+with daily results in terms of programming tools and full-on working devices.
+That is, before adventuring into using the materials and devices as well as the appropriate software tools, different research sources were consulted. Some of
+these resources are the datasheets of both the prebuilt modules and the
+materials, the assistance of the instructor and teaching assistants (TAs),
+search engines (mainly Google Search/Internet), and, finally, some related books
+and references (e.g. materials provided by the professor).
 
 Being exceptionally helpful, these resources have been the source of truth for any decision-making regarding the correct use of the hardware modules.
 
 \subsection{Components of the prototype}
 Roughly speaking, Smart Outlet comprises 3 (three) principal modules:
 \begin{itemize}
-    \item \textbf{\textit{Webduino}}: a low-level, modular circuitry formed by an Arduino and a network of sensors. The Arduino board, a microcontroller, acts as a supervisor of micro tasks. Being the core component of the hardware systems, it controls the different input/ouput functions of the connected chips.
-    \item \textbf{\textit{Web API}}: an API service attending HTTP requests from the \emph{webduino} (its only consumer). It coordinates the communication between the Wi-Fi module of the webduino (client) over the air medium (wireless) and the available API resources on an HTTP server. The API service contains various layers of interactons, including the database for data persistence.
-    \item \textbf{\textit{Web APP}}: (short for web application) a single page application (SPA) to visualize the historical content or performed actions during the webduino's operations. It allows user-friendly interactions between an end-user and the prototype itself. The web app is also responsive. That is, it can be accessed and used via mobile devices (tablets, smartphones, etc.).
+    \item \textbf{Webduino:} a low-level, modular circuitry formed by an Arduino and a network of sensors. The Arduino board, a microcontroller, acts as a supervisor of microtasks. Being the core component of the hardware systems, it controls the different input/output functions of the connected chips.
+    \item \textbf{Web API:} an API service attending HTTP requests from the \emph{webduino} (its only consumer). It coordinates the communication between the Wi-Fi module of the webduino (client) over the air medium (wireless) and the available API resources on an HTTP server. The API service contains various layers of interactions, including the database for data persistence.
+    \item \textbf{Web APP:} (short for web application) a single page application (SPA) to visualize the historical content or executed actions during the webduino's operations. It allows user-friendly interactions between an end-user and the prototype itself. The web app is also responsive. That is, it can be accessed and used via mobile devices (tablets, smartphones, etc.).
 \end{itemize}
 
-Each one of these modules deep down contains a set of characteristics that requires more than a brief description to highlight their corresponding functionality. However, in this document, we intend to only explain how to connect them together and make them work properly as a whole. We indeed provide full access to the online repository as specified in Appendix \ref{sec:code-repo} so that anyone can dig any further into the datasheets if needs be.
+Each one of these modules deep down contains a set of characteristics that
+requires more than a brief description to highlight their corresponding
+functionality. However, in this document, we intend to explain only how to connect
+them and make them work properly as a whole. We indeed provide full
+access to the online repository as specified in Appendix \ref{sec:code-repo} so
+that anyone can dig any further into the datasheets if needs be.
 
 \subsection{Workflow diagram}
-The Smart Outlet project has an easy-to-understand workflow. This workflow explains how each module is connected to each other (not fully as in a mesh connection) and performs a specific task. In this case, we provide a diagram and explain the corresponding role of the inner contents taking part in that workflow in other to achieve the complete functionality of Smart Outlet as a whole.
+The Smart Outlet project has an easy-to-understand workflow. This workflow explains how each module is connected (not fully as in a mesh connection) and performs a specific task. In this case, we provide a diagram and explain the corresponding role of the inner contents taking part in that workflow in other to achieve the complete functionality of Smart Outlet as a whole.
 
 As shown in Figure \ref{fig:workflow-diagram}, the workflow diagram consists of the following parts:
 \begin{itemize}
-    \item \textit{Devices accessing the web application}: a user can use smartphones or desktops (laptops) to access and load the web application. This end-user device should be connected to the local area network (LAN) with this IP: \texttt{192.168.0.0/24}.
-    \item \textit{Server infrastructure}:
+    \item \textbf{Devices accessing the web application:} a user can use smartphones or desktops (laptops) to access and load the web application. This end-user device should be connected to the local area network (LAN) with this IP: \texttt{192.168.0.0/24}.
+    \item \textbf{Server infrastructure:}
     \begin{itemize}
-        \item an HTTP server to serve the website when the user browses its web address\footnote{Note that a web address in this case is the associated IP address and the port where the Apache 2.0 service is running. (e.g 192.168.0.105:4200)};
-        \item an API service to attend request from consumers (webduino and web app).
+        \item an HTTP server to serve the website when the user browses its web
+        address\footnote{Note that a web address, in this case, is the associated
+        IP address and the port where the Apache 2.0 service is running. (e.g
+        192.168.0.105:4200)};
+        \item an API service to attend the requests from consumers (webduino and web app).
     \end{itemize}
-    \item \textit{Webduino}: the hardware module or prototype connected to the same network waiting to update the states of the outlets, if any.
-    \item \textit{Router}: actually working as a switch, assures connectivity and communication between the other components of the system.
+    \item \textbf{Webduino:} the hardware module or prototype connected to the same network waiting to update the states of the outlets, if any.
+    \item \textbf{Router:} working like a switch, assures connectivity and communication between the other components of the system.
 \end{itemize}
 
-\textbf{\textit{Important}}: \textit{Although every connected device lands on the same network, it is highly important to understand that no direct connectivity between the wep application and the webduino is established. Refer to UML diagram in Figure \ref{fig:uml-diagram} to get a better idea of how this interaction is made. To illustrate this point, if we had architected the diagramming system this way, we would confront serious problems at the time of taking the web service to public. That is, routing to a local IP (when there are some many security concerns to consider) would definitely be troublesome.}
+\textbf{\textit{Important}}: \textit{Although every connected device lands on the same network, it is highly important to understand that no direct connectivity between the web application and the webduino is established. Refer to UML diagram in Figure \ref{fig:uml-diagram} to get a better idea of how this interaction is made. To illustrate this point, if we had architected the diagramming system this way, we would confront serious problems at the time of taking the web service to public. That is, routing to a local IP (when there are some many security concerns to consider) would be troublesome.}
 
 \begin{figure}[ht!]
     \centering
@@ -60,9 +75,9 @@ As shown in Figure \ref{fig:workflow-diagram}, the workflow diagram consists of 
 How do the components interact with each other? Observe the \emph{UML (Unified Modeling Language)} in Figure \ref{fig:uml-diagram} to grasp the idea faster as it is a visual aid to display the sequence of events occurring when the prototype is operating.
 \begin{enumerate}
     \item Given the initial conditions, all the components are considered up and running properly;\footnote{The devices (database, API web service, webduino) should be powered on and running. Each device should be assigned a local IP address and should be reachable by other devices over the network.}
-    \item A user accessing a web browser may load and view the last updates of the power outlets. When a user updates\footnote{Set an update for a power outlet is basically to change its state from ON-OFF or viceversa.} the state of an outlet, the changes are saved into the database through the API service and immediately (~2 seconds) reflected in the webduino.
+    \item A user accessing a web browser may load and view the last updates of the power outlets. When a user updates\footnote{Set an update for a power outlet is basically to change its state from ON-OFF or vice-versa.} the state of an outlet, the changes are saved into the database through the API service and immediately (~2 seconds) reflected in the webduino.
     \item The webduino will constantly attempt to request the last states of the power outlets from the web API service. Once obtained the data, it proceeds by updating the states of the relays, which in turn will open or close the switch of the corresponding power outlet(s).
-    \item The historical records can also be visualized on a separate views using both a tabular form and a scatter plot.
+    \item The historical records can also be visualized on separate views using both a tabular form and a scatter plot.
 \end{enumerate}
 
 \begin{figure}[ht!]
@@ -73,12 +88,24 @@ How do the components interact with each other? Observe the \emph{UML (Unified M
 \end{figure}
 
 \subsection{Algorithm and data structure}
-Recall that the project touches different development environments. These environments require different architectures, techniques of programming as well as the programming languages used. As the line of thinking is different for every module, this section discusses separately each environment and eventually shows how they relate to each other.
+Recall that the project touches different development environments. These
+environments require different architectures, techniques of programming as well
+as the programming languages used. As the line of thinking is distinct for every module, this section discusses each environment separately and eventually shows how
+they relate to each other.
 
 \subsubsection{Webduino}
-The Smart Outlet prototype, also known as \emph{webduino}, is the final integrated piece of hardware obtained when combining together the microcontroller (Arduino board), the relay module, and the Wi-Fi (ESP8266-01) module. Since we are dealing with different kinds of prebuilt  submodules, we proceed by evaluating their functionality under a pilot conceptual test. More details on these tests are provided in Section \ref{sec:res-and-disc}.
+The Smart Outlet prototype, also known as \emph{webduino}, is the final
+integrated piece of hardware obtained when combining the microcontroller
+(Arduino board), the relay module, and the Wi-Fi (ESP8266-01) module. Since we
+are dealing with different kinds of prebuilt submodules, we proceed by evaluating their functionality under a pilot conceptual test. More details on these tests are provided in Section \ref{sec:res-and-disc}.
 
-Arduino supports coding in C/C++ and the concept of Object-Oriented Programming (OOP). This gives us an advantage on how to better organize the code. After different attempts to optimize the code, we end up using a class-based structure that faciliates the handling of the relay, that is, the \textit{ON-OFF} switch, and finally, convert it into a reusable library. Observe for example in Listing \ref{lst:outlet-class} the class definition representing an outlet.
+Arduino supports coding in C/C++ and the concept of Object-Oriented Programming
+(OOP). This capability gives us an advantage on how to better organize the code.
+After different attempts to optimize the code, we end up using a class-based
+structure that facilitates the handling of the relay, that is, the
+\textit{ON-OFF} switch, and finally, convert it into a reusable library. Observe
+for example in Listing \ref{lst:outlet-class} the class definition representing
+an outlet.
 
 \begin{listing}[H]
     \inputminted
@@ -97,7 +124,11 @@ Arduino supports coding in C/C++ and the concept of Object-Oriented Programming 
 
 We create and use other utilities as well as helper functions to achieve the final implementation. Similarly, we use this external library  \textit{ArduinoJson} to parse JSON data coming from the server.
 
-The overall logic is quite simple: when the Arduino starts, the submodules' setups are initialized and then fall in an infinite \emph{loop} while executing an updating status check from the API service. Note the same coded logic in Listing \ref{lst:outlet-update}. Keep in mind that the entire code is publicly available and can be consulted for further reading and understanding as specified in Appendix \ref{sec:code-repo}.
+The overall logic is quite simple: when the Arduino starts, the submodules' setups are initialized and then fall in an infinite \emph{loop} while executing
+an updating status check from the API service. Note the same coded logic in
+Listing \ref{lst:outlet-update}. Keep in mind that the entire code is publicly
+available and can be consulted for further reading and understanding, as
+specified in Appendix \ref{sec:code-repo}.
 
 \begin{listing}[H]
     \inputminted
@@ -118,15 +149,47 @@ After running the sample tests for every separate module, we put them all togeth
 
 \subsubsection{Web API}
 
+The WEB API (abbreviation for Application Programming Interface) provides read
+and write access to the states of the relays, stored in the relational
+database MySQL. For that, three endpoints are designed with the aid of the
+Python micro web framework Flask. Their functions are given as follows:
+
+\begin{itemize}
+    \item \textbf{status:} GET interface to provide the status of the outlets in
+    JSON format (see Figure \ref{fig:api-status} for the response format);
+    \item \textbf{statusino:} GET interface to provide the status of the outlets
+    in JSON format in a lighter version. This endpoint is specifically designed
+    for the communication with the Arduino to save data transmission.
+    This way, the field \textit{updatedOn} is ommited from the response as it is
+    not necessary for the correct control of the outlets;
+    \item \textbf{update:} POST interface to update the status of the outlets in
+    the database;
+    \item \textbf{history:} GET interface to provide the historical data for the
+    status of the outlets (see Figure \ref{fig:api-history} for the response format).
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.5]{api/status.png}
+    \caption{An example of the endpoint \textit{status} response.}
+    \label{fig:api-status}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.5]{api/history.png}
+    \caption{An example of the endpoint \textit{history} response.}
+    \label{fig:api-history}
+\end{figure}
 
 \subsubsection{Web Application}
-The Web App (short for web application), also known as the \emph{Web UI} module of this project, is basically an Angular-based\footnote{Consult the README.md markdown file to learn about the installation and running process when using Angular.} application. \href{https://angular.io}{Angular} is a JavaScript framework used for building web applications in a fast yet effective manner. It contains appealing features and is powered by Google.
+The Web App (short for web application), also known as the \emph{Web UI} module of this project, is an Angular-based\footnote{Consult the README.md markdown file to learn about the installation and running process when using Angular.} application. \href{https://angular.io}{Angular} is a JavaScript framework used for building web applications in a fast yet effective manner. It contains appealing features and is powered by Google.
 
 As a single web application, the routing done via views. The main components or views of the web app are:
 \begin{itemize}
-    \item \textit{\textcolor{blue}{home}}: a splash screen page serving as the entry point of the web app (see Figure \ref{fig:ui-home}). It also describes the web page purposes.
-    \item \textit{\textcolor{blue}{outlets}}: a page to perform updates on the outlets' states (See Figure \ref{fig:ui-outlets}). A user can both view and change the states of the currently available outlets.
-    \item \textit{\textcolor{blue}{history}}: a page to have a basic overview of the past saved data (see Figure \ref{fig:ui-history}).
+    \item \textbf{home:} a splash screen page serving as the entry point of the web app (see Figure \ref{fig:ui-home}). It also describes the web page purposes.
+    \item \textbf{outlets:} a page to perform updates on the outlets' states (See Figure \ref{fig:ui-outlets}). A user can both view and change the states of the currently available outlets.
+    \item \textbf{history:} a page to have a basic overview of the past saved data (see Figure \ref{fig:ui-history}).
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -150,7 +213,7 @@ As a single web application, the routing done via views. The main components or 
     \label{fig:ui-history}
 \end{figure}
 
-We do not detail much about the algorithm and data structure used for the web application since the main focus is not on how to build a web page efficiently. However, any curious developer is welcome to check the \textit{README} content of the web page to learn more about how to take a web app from development to production. Be aware that the programming techniques are strongly advanced and robust.
+We do not detail much about the algorithm and data structure used for the web application since the main focus is not on how to build a web page efficiently. However, any curious developer is welcome to check the \textit{README} content of the web page to learn more about how to take a web app from development to production. Be aware that the programming techniques are well advanced and robust.
 
 In addition to that, the web app is unit-tested and dockerized.
 
