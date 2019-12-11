@@ -183,13 +183,20 @@ Python micro web framework Flask. Their functions are given as follows:
 \end{figure}
 
 \subsubsection{Web Application}
-The Web App (short for web application), also known as the \emph{Web UI} module of this project, is an Angular-based\footnote{Consult the README.md markdown file to learn about the installation and running process when using Angular.} application. \href{https://angular.io}{Angular} is a JavaScript framework used for building web applications in a fast yet effective manner. It contains appealing features and is powered by Google.
+The Web App (short for web application), also known as the \emph{Web UI} module
+of this project, is an Angular-based\footnote{Consult the README.md markdown
+file to learn about the installation and running process when using Angular.}
+application. \href{https://angular.io}{Angular} is a JavaScript framework used
+for building web applications in a fast yet effective manner. It contains
+appealing features and is powered by Google.
 
 As a single web application, the routing done via views. The main components or views of the web app are:
 \begin{itemize}
-    \item \textbf{home:} a splash screen page serving as the entry point of the web app (see Figure \ref{fig:ui-home}). It also describes the web page purposes.
-    \item \textbf{outlets:} a page to perform updates on the outlets' states (See Figure \ref{fig:ui-outlets}). A user can both view and change the states of the currently available outlets.
-    \item \textbf{history:} a page to have a basic overview of the past saved data (see Figure \ref{fig:ui-history}).
+    \item \textbf{home:} a splash screen page serving as the entry point of the web app (see Figure \ref{fig:ui-home}). It also describes the web page purposes;
+    \item \textbf{outlets:} a page to perform updates on the outlets' states (See Figure \ref{fig:ui-outlets}). A user can both view and change the states of the currently available outlets;
+    \item \textbf{history:} a page to have a basic overview of the past saved
+    data in tabular (see Figure \ref{fig:ui-history}) and graph format (see
+    Figure \ref{fig:ui-plot}).
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -213,11 +220,16 @@ As a single web application, the routing done via views. The main components or 
     \label{fig:ui-history}
 \end{figure}
 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.15]{screenshots/web-app/plot.png}
+    \caption{View of the plot page}
+    \label{fig:ui-plot}
+\end{figure}
+
 We do not detail much about the algorithm and data structure used for the web application since the main focus is not on how to build a web page efficiently. However, any curious developer is welcome to check the \textit{README} content of the web page to learn more about how to take a web app from development to production. Be aware that the programming techniques are well advanced and robust.
 
 In addition to that, the web app is unit-tested and dockerized.
-
-\subsection{Code implementation}
 % ==============================================================================
 % END: Methodology
 % ==============================================================================
