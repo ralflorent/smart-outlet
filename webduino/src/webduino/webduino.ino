@@ -3,7 +3,7 @@
 #include <string.h>
 #include <Outlet.h>
 
-#define DEBUG       true
+#define DEBUG       true // on testing mode, make it as verbose as possible
 #define LED         13
 #define CH_PD       50
 #define BAUDRATE    115200
@@ -16,9 +16,9 @@
 
 #define WIFISerial Serial3 // software serial has a buffer overflow issue
 
-char* PAYLOAD;
+char* PAYLOAD; // on-the-fly buffer to save HTTP response body
 struct STATUS {
-  unsigned char outlet;
+  unsigned char outlet; // interested in values ranging from 0-255
   bool state;
 };
 
@@ -43,6 +43,15 @@ void setup () {
   setupWifi();
 }
 
+/*
+    Algorithm:
+    1) First, establish an HTTP connection/session with the remote server
+    2) Then, send an HTTP GET request to obtain the outlets' states
+    3) If obtained, parse the outlets' states to binary data to actuate
+    over the relay module
+    4) Finally, close the connection with the server
+    5) Repeat  step 1-2-3
+*/
 void loop () {
 
   if (connect(0, SERVER_API)) {
@@ -61,9 +70,8 @@ void loop () {
   }
 }
 
-
 /*
-   Open connection to the HTTP server
+   Open a connection to the HTTP server
    AT+CIPSTART=id,"type","addr",port
    id = 0
    type = "TCP"
@@ -84,7 +92,8 @@ bool connect(int connectionId, String server) {
   return false;
 }
 
-/* Close connection to the HTTP server
+/*
+   Close connection to the HTTP server
    AT+CIPCLOSE=0
 */
 bool disconnect(int connectionId) {
@@ -99,8 +108,7 @@ bool disconnect(int connectionId) {
       return true;
     }
   }
-  digitalWrite(LED, LOW);
-//  relay1.turnOff();
+
   return false;
 }
 
@@ -109,6 +117,8 @@ bool disconnect(int connectionId) {
    Send the HTTP GET or POST request to the server
    GET /api/outlet/status HTTP1/1\r\n
    Host: 192.168.1.20:80\r\n\r\n
+
+   [body|json format]
 */
 bool sendRequest(String method, String resource, String queryParams, int connectionId, String server) {
   bool isPost = false;
@@ -132,7 +142,7 @@ bool sendRequest(String method, String resource, String queryParams, int connect
   String cipSend = "AT+CIPSEND=" + String(connectionId) + "," + cipCmd.length();
   WIFISerial.println(cipSend);
   if (DEBUG) Serial.println(cipSend);
-  delay(500); // wait until request is sent
+  delay(500); // wait until the command is sent
 
   // Now try to send the HTTP request
   if (WIFISerial.available()) {
@@ -157,6 +167,7 @@ void clearBuffer() {
   }
 }
 
+// Initial configuration for the ESP8266 (Wi-Fi)
 void setupWifi() {
   WIFISerial.begin(BAUDRATE);
 
@@ -173,6 +184,13 @@ void setupWifi() {
   if (DEBUG) Serial.println("WIFI setup done!");
 }
 
+
+/*
+  Write commands in the ESP8266 device (via the arduino board)
+  The ESP8266 uses a set of commands to operate/exectue certains tasks. This is
+  a helper to send them and reacts to its available response (data value in the
+  buffer
+*/
 String sendWifiCommand(String command, const int timeout, boolean debug) {
 
   String response = "";
@@ -193,6 +211,16 @@ String sendWifiCommand(String command, const int timeout, boolean debug) {
   return response;
 }
 
+/*
+ This wrapper has a special use. It basically allows to both send an HTTP GET
+ request and hopefully extract the data (payload) from the HTTP response body.
+
+ In other words, when this obtains the outlets' states and saves it in the PAYLOAD
+ buffer for future use.
+
+ NOTE: This helper can surely be improved, however, given the simplicity of the task,
+ we omit the single responsibility principle in here.
+*/
 void sendHTTPCmd(String command, const int timeout, boolean debug) {
 
   String response = sendWifiCommand(command, timeout, debug);
@@ -211,19 +239,22 @@ void sendHTTPCmd(String command, const int timeout, boolean debug) {
 }
 
 /*********************************************************************************/
-/* Status format
-  {
-    "data": [
-      {
-        "outlet": 1,
-        "state": 1
-      },
-      {
-        "outlet": 2,
-        "state": 0
-      }
-    ]
-  }
+/*
+    Deserialize the json content and parse it into the relay states
+
+    Example of states' format:
+    {
+        "data": [
+        {
+            "outlet": 1,
+            "state": 1
+        },
+        {
+            "outlet": 2,
+            "state": 0
+        }
+        ]
+    }
 */
 bool parseRelayStates() {
   // Buffer size
@@ -252,6 +283,15 @@ bool parseRelayStates() {
   return true;
 }
 
+/*  Extract the body from the HTTP response
+    This helper extracts the exact string body content from the HTTP response.
+    Given the HTTP standard, the response contains meta info (headers and more),
+    so that serves an alternative to get the body.
+
+    NOTE: An HTTP helper/library (more optimized) could have been used to avoid
+    certain HTTP-related operations, but as those seem to be simple, there is no
+    need for that.
+*/
 String getDataPayload(String httpRep) {
   int startIndex = httpRep.indexOf('{');
   int endIndex = httpRep.lastIndexOf('}');
@@ -279,6 +319,10 @@ void updateRelay(char outlet, bool state) {
   }
 }
 
+/*
+  Display nicely the outlets' states in Serial view
+  NOTE: Only valid in verbose mode
+*/
 void printStatus() {
   Serial.println("\nStates for outlets: ");
   for (int i = 0; i < N_RELAYS; i++) {
