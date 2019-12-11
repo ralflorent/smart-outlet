@@ -113,7 +113,7 @@ bool sendRequest(String method, String resource, String queryParams, int connect
   String cipSend = "AT+CIPSEND=" + String(connectionId) + "," + cipCmd.length();
   WIFISerial.println(cipSend);
   if (DEBUG) Serial.println(cipSend);
-  delay(1000); // wait until request is sent
+  delay(1000); // wait until the command is sent
 
   // Now try to send the HTTP request
   if (WIFISerial.available()) {
@@ -155,22 +155,6 @@ void setupWifi() {
 }
 
 String sendWifiCommand(String command, const int timeout, boolean debug) {
-
-//    long int time = millis();
-//    char espBuffer[1024] = {0};
-//    int readCount = 0;
-//
-//    WIFISerial.println(command); // send the read character to the esp8266
-//
-//    while ((time + timeout) > millis()) {
-//      if (WIFISerial.overflow()) Serial.println("SoftwareSerial overflow!");
-//      if (WIFISerial.available() > readCount + sizeof espBuffer - 1)
-//          break;
-//      readCount += WIFISerial.readBytes(espBuffer + readCount, WIFISerial.available());
-//    }
-//
-//    if (debug) Serial.print(espBuffer);
-//    return espBuffer;
 
   String response = "";
   long int time = millis();
