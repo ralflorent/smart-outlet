@@ -17,6 +17,8 @@ For more info on Docker, please view this [page](https://www.docker.com/).
 
 ## Application creation
 The app or web-ui is created with [Angular CLI](https://cli.angular.io/). Below is detailed the command used to do so.
+## Application
+The web application (or web-ui) is created with [Angular CLI](https://cli.angular.io/). Below is detailed the command used to do so.
 ```
 ng new smart-outlet --routing --style scss --skip-git --prefix so --directory web-ui
 ```
